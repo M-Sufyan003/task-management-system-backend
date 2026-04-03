@@ -6,19 +6,19 @@ The Task Management System is a backend application designed to manage tasks eff
 This system is built using Java (Spring Boot) and follows a clean, modular architecture suitable for real-world applications.
 
 ## Objectives
-Manage tasks efficiently (Create, Read, Update, Delete)
-Support multiple users with role-based permissions
-Ensure secure and scalable backend services
-Provide a structured API for frontend integration
+- Manage tasks efficiently (Create, Read, Update, Delete)
+- Support multiple users with role-based permissions
+- Ensure secure and scalable backend services
+- Provide a structured API for frontend integration
 
 ---
 
 ## Tech Stack
-Backend: Java, Spring Boot
-Database: MySQL
-ORM: Spring Data JPA (Hibernate)
-Build Tool: Maven
-API Testing: Postman
+- Backend: Java, Spring Boot
+- Database: MySQL
+- ORM: Spring Data JPA (Hibernate)
+- Build Tool: Maven
+- API Testing: Postman
 
 ---
 
@@ -47,7 +47,7 @@ API Testing: Postman
 - Assign tasks to users
 - View task history
 
-### Non-Functional Requirements
+## Non-Functional Requirements
 - Performance: Efficient API response time
 - Scalability: Modular architecture for future expansion
 - Security: Role-based authorization
