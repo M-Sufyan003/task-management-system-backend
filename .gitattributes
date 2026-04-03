@@ -1,0 +1,18 @@
+# --------------------------------------------
+# Platform-specific line endings
+# --------------------------------------------
+
+# Maven wrapper shell script (for macOS/Linux) → use LF line endings
+/mvnw text eol=lf        
+
+# Windows batch files (.cmd) → use CRLF line endings
+*.cmd text eol=crlf
+
+
+# Ensure consistent line endings across platforms for source and config files
+# LF (Unix-style) endings are used for Java, XML, properties, and YAML files
+
+*.java text eol=lf        # Java source files → LF
+*.xml text eol=lf         # XML configuration files → LF
+*.properties text eol=lf  # Properties files → LF
+*.yml text eol=lf         # YAML files → LF
