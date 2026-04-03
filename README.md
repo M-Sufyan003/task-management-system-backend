@@ -30,29 +30,29 @@ API Testing: Postman
 - Secure user data handling
 
 ### Task Management
-Create new tasks
-Update task details
-Delete tasks
-View all tasks
+- Create new tasks
+- Update task details
+- Delete tasks
+- View all tasks
 
 ### Role-Based Access Control
-Admin
-Manage all tasks
-Manage users
-User
-Manage only their own tasks
+- Admin
+- Manage all tasks
+- Manage users
+- User
+- Manage only their own tasks
 
 ### Task Tracking
-Track task status (Pending, In Progress, Completed)
-Assign tasks to users
-View task history
+- Track task status (Pending, In Progress, Completed)
+- Assign tasks to users
+- View task history
 
 ### Non-Functional Requirements
-Performance: Efficient API response time
-Scalability: Modular architecture for future expansion
-Security: Role-based authorization
-Usability: Clean API design for frontend integration
-Maintainability: Well-structured and readable code
+- Performance: Efficient API response time
+- Scalability: Modular architecture for future expansion
+- Security: Role-based authorization
+- Usability: Clean API design for frontend integration
+- Maintainability: Well-structured and readable code
 
 ### Project Structure
 src/
@@ -65,30 +65,33 @@ src/
 ---
 
 ### API Endpoints (Sample)
-User APIs
-POST /api/users/register → Register user
-POST /api/users/login → Login user
-Task APIs
-POST /api/tasks → Create task
-GET /api/tasks → Get all tasks
-PUT /api/tasks/{id} → Update task
-DELETE /api/tasks/{id} → Delete task
+#### User APIs
+- POST /api/users/register → Register user
+- POST /api/users/login → Login user
+
+#### Task APIs
+- POST /api/tasks → Create task
+- GET /api/tasks → Get all tasks
+- PUT /api/tasks/{id} → Update task
+- DELETE /api/tasks/{id} → Delete task
 
 ---
 
 ### Setup Instructions
-1️⃣ Clone Repository
+1- Clone Repository
 git clone https://github.com/M-Sufyan003/task-management-system-backend.git
-2️⃣ Navigate to Project
-cd task-manager-backend
-3️⃣ Configure Database
 
-### Update application.properties:
+2- Navigate to Project
+cd task-manager-backend
+
+3- Configure Database
+Update application.properties:
 
 spring.datasource.url=jdbc:mysql://localhost:3306/task_management_system
 spring.datasource.username=root
 spring.datasource.password=
-4️⃣ Run Application
+
+4- Run Application
 mvn spring-boot:run
 
 ### Testing
@@ -98,20 +101,19 @@ Use Postman to test API endpoints.
 ---
 
 ## Future Enhancements
-JWT Authentication
-Email Notifications
-Task deadlines & reminders
-File attachments
-Frontend integration (React)
+- JWT Authentication
+- Email Notifications
+- Task deadlines & reminders
+- File attachments
+- Frontend integration (React)
 
 ---
 
 ## Author
 
 Muhammad Sufyan
-
-BS Information Technology
-Backend Developer (Java)
+- BS Information Technology
+- Backend Developer (Java)
 
 ---
 
