@@ -25,9 +25,9 @@ API Testing: Postman
 ## System Features (Functional Requirements)
 
 ### User Management
-User registration and login
-Role-based access control (Admin/User)
-Secure user data handling
+- User registration and login
+- Role-based access control (Admin/User)
+- Secure user data handling
 
 ### Task Management
 Create new tasks
