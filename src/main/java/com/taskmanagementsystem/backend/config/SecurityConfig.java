@@ -1,31 +1,60 @@
 package com.taskmanagementsystem.backend.config;
 
+import com.taskmanagementsystem.backend.security.JwtAuthenticationFilter;
+import com.taskmanagementsystem.backend.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
+    private final CustomUserDetailsService userDetailsService;
+    private final JwtAuthenticationFilter jwtFilter;
+
+    public SecurityConfig(CustomUserDetailsService userDetailsService,
+            JwtAuthenticationFilter jwtFilter) {
+        this.userDetailsService = userDetailsService;
+        this.jwtFilter = jwtFilter;
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(
+            org.springframework.security.config.annotation.web.builders.HttpSecurity http) throws Exception {
+        http
+                // Disable CSRF for REST APIs
+                .csrf(csrf -> csrf.disable())
+
+                // Define endpoint access rules
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**").permitAll() // signup/login public
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // only ADMIN can access
+                        .requestMatchers("/api/user/**").hasRole("USER") // only USER can access
+                        .anyRequest().authenticated() // all other endpoints require auth
+                )
+
+                // Add JWT filter before Spring's UsernamePasswordAuthenticationFilter
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
+
+    // Password encoder bean to hash passwords
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // AuthenticationManager bean for login authentication
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        http
-                .csrf(csrf -> csrf.disable()) // disable CSRF for testing
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // allow signup/login
-                        .anyRequest().authenticated() // all other endpoints secured
-                )
-                .httpBasic(); // use basic auth for other endpoints
-
-        return http.build();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 }
