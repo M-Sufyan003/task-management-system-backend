@@ -25,4 +25,16 @@ public class GlobalExceptionHandler {
         errorResponse.put("error", "Something went wrong: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
+
+
+    //Below code will:
+    // Handles exception when a user tries to register with an email that already
+    // exists
+    // Returns HTTP 409 (CONFLICT) to indicate duplicate resource creation attempt
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<Map<String, String>> handleUserAlreadyExists(UserAlreadyExistsException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
 }

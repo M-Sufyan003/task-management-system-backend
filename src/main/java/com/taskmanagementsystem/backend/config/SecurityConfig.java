@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() // signup/login public
                         .requestMatchers("/api/admin/**").hasRole("ADMIN") // only ADMIN can access
-                        .requestMatchers("/api/user/**").hasRole("USER") // only USER can access
+                        .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN") // both admin and user can manage
                         .anyRequest().authenticated() // all other endpoints require auth
                 )
 

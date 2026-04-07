@@ -3,6 +3,7 @@ package com.taskmanagementsystem.backend.service;
 import com.taskmanagementsystem.backend.dto.SignupRequest;
 import com.taskmanagementsystem.backend.entity.Role;
 import com.taskmanagementsystem.backend.entity.User;
+import com.taskmanagementsystem.backend.exception.UserAlreadyExistsException;
 import com.taskmanagementsystem.backend.repository.UserRepository;
 import com.taskmanagementsystem.backend.util.JwtUtil;
 
@@ -29,7 +30,7 @@ public class AuthServiceImpl implements AuthService {
     public void signup(SignupRequest request) {
         // Step 1: Check if email already exists
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new UserAlreadyExistsException("Email already exists");
 
         }
         // Step 2: Create User object
