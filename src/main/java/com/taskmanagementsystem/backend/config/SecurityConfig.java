@@ -20,7 +20,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtFilter;
 
     public SecurityConfig(CustomUserDetailsService userDetailsService,
-            JwtAuthenticationFilter jwtFilter) {
+                          JwtAuthenticationFilter jwtFilter) {
         this.userDetailsService = userDetailsService;
         this.jwtFilter = jwtFilter;
     }
@@ -35,9 +35,10 @@ public class SecurityConfig {
                 // Define endpoint access rules
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() // signup/login public
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // only ADMIN can access
-                        .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN") // both admin and user can manage
-                        .anyRequest().authenticated() // all other endpoints require auth
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // only ADMIN
+                        .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN") // USER + ADMIN
+                        .requestMatchers("/api/tasks/**").hasAnyRole("USER", "ADMIN") // tasks secured
+                        .anyRequest().authenticated() // fallback for all other endpoints
                 )
 
                 // Add JWT filter before Spring's UsernamePasswordAuthenticationFilter
