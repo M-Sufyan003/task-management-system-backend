@@ -2,6 +2,7 @@ package com.taskmanagementsystem.backend.controller;
 
 import com.taskmanagementsystem.backend.dto.TaskDTO;
 import com.taskmanagementsystem.backend.dto.UserDTO;
+import com.taskmanagementsystem.backend.entity.TaskStatus;
 import com.taskmanagementsystem.backend.service.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,9 +45,10 @@ public class AdminController {
     // Tasks
     // -----------------------
     @GetMapping("/tasks")
-    public ResponseEntity<List<TaskDTO>> getAllTasks() {
-        List<TaskDTO> tasks = adminService.getAllTasks();
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    public ResponseEntity<List<TaskDTO>> getAllTasks(
+        @RequestParam(required = false) TaskStatus status) {
+        List<TaskDTO> tasks = adminService.getAllTasks(status);
+        return ResponseEntity.ok(tasks);
     }
 
     @PutMapping("/tasks/{id}")

@@ -3,12 +3,16 @@ package com.taskmanagementsystem.backend.service;
 import com.taskmanagementsystem.backend.dto.TaskDTO;
 import com.taskmanagementsystem.backend.dto.UserDTO;
 import com.taskmanagementsystem.backend.entity.Task;
+import com.taskmanagementsystem.backend.entity.TaskStatus;
 import com.taskmanagementsystem.backend.entity.User;
 import com.taskmanagementsystem.backend.exception.TaskNotFoundException;
 import com.taskmanagementsystem.backend.exception.UnauthorizedActionException;
 import com.taskmanagementsystem.backend.repository.TaskRepository;
 import com.taskmanagementsystem.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,8 +56,7 @@ public class TaskServiceImpl implements TaskService {
                 task.getDueDate(),
                 task.getCreatedAt(),
                 task.getUpdatedAt(),
-                userDTO
-        );
+                userDTO);
     }
 
     // -----------------------
@@ -74,10 +77,22 @@ public class TaskServiceImpl implements TaskService {
         return mapToDTO(savedTask);
     }
 
-    @Override
-    public List<TaskDTO> getMyTasks() {
+    @Override // for normal users to get tasks based on status
+    public List<TaskDTO> getMyTasks(TaskStatus status, int page) {
+
         User currentUser = getCurrentUser();
-        return taskRepository.findByUser(currentUser)
+
+        Pageable pageable = PageRequest.of(page, 10); // max 10 records are allowed to send in tasks apis to achieve pagination
+
+        Page<Task> taskPage;
+
+        if (status != null) {
+            taskPage = taskRepository.findByUserAndStatus(currentUser, status, pageable);
+        } else {
+            taskPage = taskRepository.findByUser(currentUser, pageable);
+        }
+
+        return taskPage.getContent()
                 .stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());

@@ -1,6 +1,7 @@
 package com.taskmanagementsystem.backend.controller;
 
 import com.taskmanagementsystem.backend.dto.TaskDTO;
+import com.taskmanagementsystem.backend.entity.TaskStatus;
 import com.taskmanagementsystem.backend.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -38,9 +39,12 @@ public class TaskController {
 
     // Get tasks of logged-in user
     @GetMapping
-    public ResponseEntity<List<TaskDTO>> getMyTasks() {
-        List<TaskDTO> tasks = taskService.getMyTasks();
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    public ResponseEntity<List<TaskDTO>> getMyTasks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(required = false) TaskStatus status) {
+
+        List<TaskDTO> tasks = taskService.getMyTasks(status, page);
+        return ResponseEntity.ok(tasks);
     }
 
     // Update a task

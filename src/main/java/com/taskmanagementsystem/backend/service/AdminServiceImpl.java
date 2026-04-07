@@ -3,6 +3,7 @@ package com.taskmanagementsystem.backend.service;
 import com.taskmanagementsystem.backend.dto.TaskDTO;
 import com.taskmanagementsystem.backend.dto.UserDTO;
 import com.taskmanagementsystem.backend.entity.Task;
+import com.taskmanagementsystem.backend.entity.TaskStatus;
 import com.taskmanagementsystem.backend.entity.User;
 import com.taskmanagementsystem.backend.exception.TaskNotFoundException;
 import com.taskmanagementsystem.backend.repository.TaskRepository;
@@ -20,8 +21,8 @@ public class AdminServiceImpl implements AdminService {
     private final TaskService taskService;
 
     public AdminServiceImpl(UserRepository userRepository,
-                            TaskRepository taskRepository,
-                            TaskService taskService) {
+            TaskRepository taskRepository,
+            TaskService taskService) {
         this.userRepository = userRepository;
         this.taskRepository = taskRepository;
         this.taskService = taskService;
@@ -48,11 +49,20 @@ public class AdminServiceImpl implements AdminService {
     // -----------------------
     // Tasks
     // -----------------------
-    @Override
-    public List<TaskDTO> getAllTasks() {
-        return taskRepository.findAll()
-                .stream()
-                .map(task -> taskService.mapToDTO(task))
+    @Override // for admin users to get task based on status
+    public List<TaskDTO> getAllTasks(TaskStatus status) {
+        List<Task> tasks;
+        if (status != null) {
+            tasks = taskRepository.findAll()
+                    .stream()
+                    .filter(task -> task.getStatus() == status)
+                    .collect(Collectors.toList());
+        } else {
+            tasks = taskRepository.findAll();
+        }
+
+        return tasks.stream()
+                .map(task -> taskService.mapToDTO(task)) // taskService must be TaskServiceImpl type
                 .collect(Collectors.toList());
     }
 
