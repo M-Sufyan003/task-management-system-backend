@@ -1,19 +1,18 @@
 package com.taskmanagementsystem.backend.service;
 
 import com.taskmanagementsystem.backend.dto.TaskDTO;
-import com.taskmanagementsystem.backend.entity.Task;
+import com.taskmanagementsystem.backend.dto.UserDTO;
 
 import java.util.List;
 
-public interface TaskService {
+public interface AdminService {
 
-    TaskDTO createTask(TaskDTO taskDTO);
+    // Users
+    List<UserDTO> getAllUsers();
+    void deleteUser(Long userId);
 
-    TaskDTO mapToDTO(Task task);
-
-    List<TaskDTO> getMyTasks();
-
+    // Tasks
+    List<TaskDTO> getAllTasks();
     TaskDTO updateTask(Long taskId, TaskDTO taskDTO);
-
     void deleteTask(Long taskId);
 }

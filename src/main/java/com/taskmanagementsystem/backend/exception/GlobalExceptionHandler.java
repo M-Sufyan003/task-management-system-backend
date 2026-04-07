@@ -12,6 +12,22 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleTaskNotFound(TaskNotFoundException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", 404);
+        response.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(UnauthorizedActionException.class)
+    public ResponseEntity<Map<String, Object>> handleUnauthorized(UnauthorizedActionException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", 403);
+        response.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+    }
+
     // Handle invalid JSON enums or wrong types
     @ExceptionHandler(InvalidFormatException.class)
     public ResponseEntity<Map<String, String>> handleInvalidFormat(InvalidFormatException ex) {
