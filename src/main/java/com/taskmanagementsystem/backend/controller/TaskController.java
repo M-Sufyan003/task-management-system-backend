@@ -1,6 +1,9 @@
 package com.taskmanagementsystem.backend.controller;
 
+import com.taskmanagementsystem.backend.dto.ChangeUserPasswordDTO;
 import com.taskmanagementsystem.backend.dto.TaskDTO;
+import com.taskmanagementsystem.backend.dto.UserProfileDTO;
+import com.taskmanagementsystem.backend.dto.UserTaskStatsDTO;
 import com.taskmanagementsystem.backend.entity.TaskStatus;
 import com.taskmanagementsystem.backend.service.TaskService;
 import jakarta.validation.Valid;
@@ -69,6 +72,35 @@ public class TaskController {
 
         Map<String, String> response = new HashMap<>();
         response.put("message", "Task deleted successfully");
+
+        return ResponseEntity.ok(response);
+    }
+
+    // Get profile
+    @GetMapping("/profile")
+    public ResponseEntity<UserProfileDTO> getProfile() {
+        return ResponseEntity.ok(taskService.getMyProfile());
+    }
+
+    // Update profile
+    @PutMapping("/profile")
+    public ResponseEntity<UserProfileDTO> updateProfile(@RequestBody UserProfileDTO dto) {
+        return ResponseEntity.ok(taskService.updateMyProfile(dto));
+    }
+
+    // User stats
+    @GetMapping("/stats")
+    public ResponseEntity<UserTaskStatsDTO> getStats() {
+        return ResponseEntity.ok(taskService.getMyTaskStats());
+    }
+
+    @PutMapping("/change-password")
+    public ResponseEntity<?> changeUserPassword(@RequestBody ChangeUserPasswordDTO dto) {
+
+        taskService.changeUserPassword(dto);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Password updated successfully");
 
         return ResponseEntity.ok(response);
     }

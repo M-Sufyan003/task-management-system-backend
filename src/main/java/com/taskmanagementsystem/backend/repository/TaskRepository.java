@@ -15,4 +15,13 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     Page<Task> findByUserAndStatus(User user, TaskStatus status, Pageable pageable);
 
     Page<Task> findByStatus(TaskStatus status, Pageable pageable);
+
+    // dashboard methods for user and admin
+
+    long countByUser(User user);
+
+    long countByUserAndStatus(User user, TaskStatus status);
+
+    // Admin
+    long countByStatus(TaskStatus status);
 }

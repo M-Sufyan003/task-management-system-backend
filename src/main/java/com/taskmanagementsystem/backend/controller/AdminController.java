@@ -1,5 +1,6 @@
 package com.taskmanagementsystem.backend.controller;
 
+import com.taskmanagementsystem.backend.dto.AdminStatsDTO;
 import com.taskmanagementsystem.backend.dto.TaskDTO;
 import com.taskmanagementsystem.backend.dto.UserDTO;
 import com.taskmanagementsystem.backend.entity.TaskStatus;
@@ -47,13 +48,13 @@ public class AdminController {
     // Tasks
     // -----------------------
     @GetMapping("/tasks")
-public ResponseEntity<Page<TaskDTO>> getAllTasks(
-        @RequestParam(required = false) TaskStatus status,
-        Pageable pageable) {
+    public ResponseEntity<Page<TaskDTO>> getAllTasks(
+            @RequestParam(required = false) TaskStatus status,
+            Pageable pageable) {
 
-    Page<TaskDTO> tasks = adminService.getAllTasks(status, pageable);
-    return ResponseEntity.ok(tasks);
-}
+        Page<TaskDTO> tasks = adminService.getAllTasks(status, pageable);
+        return ResponseEntity.ok(tasks);
+    }
 
     @PutMapping("/tasks/{id}")
     public ResponseEntity<TaskDTO> updateTask(@PathVariable Long id, @RequestBody TaskDTO taskDTO) {
@@ -67,5 +68,11 @@ public ResponseEntity<Page<TaskDTO>> getAllTasks(
         Map<String, String> response = new HashMap<>();
         response.put("message", "Task deleted successfully");
         return ResponseEntity.ok(response);
+    }
+
+    //  Admin dashboard stats
+    @GetMapping("/stats")
+    public ResponseEntity<AdminStatsDTO> getStats() {
+        return ResponseEntity.ok(adminService.getSystemStats());
     }
 }

@@ -1,5 +1,6 @@
 package com.taskmanagementsystem.backend.service;
 
+import com.taskmanagementsystem.backend.dto.AdminStatsDTO;
 import com.taskmanagementsystem.backend.dto.TaskDTO;
 import com.taskmanagementsystem.backend.dto.UserDTO;
 import com.taskmanagementsystem.backend.entity.Task;
@@ -27,6 +28,24 @@ public class AdminServiceImpl implements AdminService {
         this.userRepository = userRepository;
         this.taskRepository = taskRepository;
         this.taskService = taskService;
+    }
+
+    @Override // get stats for dashboard for total users, total tasks and total tasks by status
+    public AdminStatsDTO getSystemStats() {
+
+        long totalUsers = userRepository.count();
+        long totalTasks = taskRepository.count();
+
+        long todo = taskRepository.countByStatus(TaskStatus.TODO);
+        long inProgress = taskRepository.countByStatus(TaskStatus.IN_PROGRESS);
+        long done = taskRepository.countByStatus(TaskStatus.DONE);
+
+        return new AdminStatsDTO(
+                totalUsers,
+                totalTasks,
+                todo,
+                inProgress,
+                done);
     }
 
     // -----------------------

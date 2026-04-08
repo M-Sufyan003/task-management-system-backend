@@ -1,5 +1,6 @@
 package com.taskmanagementsystem.backend.service;
 
+import com.taskmanagementsystem.backend.dto.AdminStatsDTO;
 import com.taskmanagementsystem.backend.dto.TaskDTO;
 import com.taskmanagementsystem.backend.dto.UserDTO;
 import com.taskmanagementsystem.backend.entity.TaskStatus;
@@ -19,4 +20,6 @@ public interface AdminService {
     Page<TaskDTO> getAllTasks(TaskStatus status, Pageable pageable); // for admin
     TaskDTO updateTask(Long taskId, TaskDTO taskDTO);
     void deleteTask(Long taskId);
+
+    AdminStatsDTO getSystemStats();
 }
