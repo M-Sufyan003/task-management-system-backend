@@ -9,7 +9,8 @@ import com.taskmanagementsystem.backend.exception.TaskNotFoundException;
 import com.taskmanagementsystem.backend.repository.TaskRepository;
 import com.taskmanagementsystem.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,20 +51,17 @@ public class AdminServiceImpl implements AdminService {
     // Tasks
     // -----------------------
     @Override // for admin users to get task based on status
-    public List<TaskDTO> getAllTasks(TaskStatus status) {
-        List<Task> tasks;
+    public Page<TaskDTO> getAllTasks(TaskStatus status, Pageable pageable) {
+
+        Page<Task> taskPage;
+
         if (status != null) {
-            tasks = taskRepository.findAll()
-                    .stream()
-                    .filter(task -> task.getStatus() == status)
-                    .collect(Collectors.toList());
+            taskPage = taskRepository.findByStatus(status, pageable);
         } else {
-            tasks = taskRepository.findAll();
+            taskPage = taskRepository.findAll(pageable);
         }
 
-        return tasks.stream()
-                .map(task -> taskService.mapToDTO(task)) // taskService must be TaskServiceImpl type
-                .collect(Collectors.toList());
+        return taskPage.map(task -> taskService.mapToDTO(task));
     }
 
     @Override

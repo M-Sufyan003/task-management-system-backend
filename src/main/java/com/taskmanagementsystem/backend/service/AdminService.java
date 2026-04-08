@@ -3,6 +3,9 @@ package com.taskmanagementsystem.backend.service;
 import com.taskmanagementsystem.backend.dto.TaskDTO;
 import com.taskmanagementsystem.backend.dto.UserDTO;
 import com.taskmanagementsystem.backend.entity.TaskStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.List;
 
@@ -13,7 +16,7 @@ public interface AdminService {
     void deleteUser(Long userId);
 
     // Tasks
-    List<TaskDTO> getAllTasks(TaskStatus status); // for admin
+    Page<TaskDTO> getAllTasks(TaskStatus status, Pageable pageable); // for admin
     TaskDTO updateTask(Long taskId, TaskDTO taskDTO);
     void deleteTask(Long taskId);
 }
