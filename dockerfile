@@ -1,20 +1,15 @@
-# Stage 1: Build the application
+# Stage 1: Build
 FROM maven:3.9.6-eclipse-temurin-21 AS build
-
 WORKDIR /app
-
 COPY pom.xml .
 COPY src ./src
-
 RUN mvn clean package -DskipTests
 
-# Stage 2: Run the application
+# Stage 2: Run
 FROM eclipse-temurin:21-jdk
-
 WORKDIR /app
-
 COPY --from=build /app/target/*.jar app.jar
-
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","app.jar"]
+# This ensures the 'prod' profile is used and the port is set by Railway
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-Dserver.port=${PORT}", "-jar", "app.jar"]
