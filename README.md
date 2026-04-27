@@ -253,4 +253,4 @@ This project was developed as part of an internship and demonstrates:
 * Backend system design
 * REST API development
 * Security implementation
-* Real-world scalable architecture
+* Real-world scalable architecture.
