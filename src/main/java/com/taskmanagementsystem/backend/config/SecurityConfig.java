@@ -33,8 +33,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(
             org.springframework.security.config.annotation.web.builders.HttpSecurity http) throws Exception {
         http
-                .cors(cors -> {
-                })
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
                 // Disable CSRF for REST APIs
                 .csrf(csrf -> csrf.disable())
@@ -70,7 +69,9 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "https://taskmanagerbysufyan.netlify.app"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
